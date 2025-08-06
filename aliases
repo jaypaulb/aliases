@@ -1,3 +1,199 @@
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+#
+# Custom Bash Aliases
+#
+
+#==============================================================================
+# General Aliases & ls
+#==============================================================================
+
+# ll: List all files in long format, human-readable, including hidden files.
+# Example: ll
+alias ll='ls -alFh --color=auto'
+
+# la: List all files, including hidden files, with human-readable sizes.
+# Example: la
+alias la='ls -Ah --color=auto'
+
+# l: List files in a column format, colorized.
+# Example: l
+alias l='ls -CF --color=auto'
+
+# lss: List files sorted by size (largest first), with human-readable sizes.
+# Example: lss
+alias lss='ls -lSrh --color=auto'
+
+# lst: List files sorted by modification time (newest first), with human-readable sizes.
+# Example: lst
+alias lst='ls -ltrh --color=auto'
+
+
+#==============================================================================
+# Alias Management
+#==============================================================================
+
+# addalias: Add a new alias to the custom aliases file and reload.
+# Example: addalias myalias='my command'
+addalias() {
+    echo "alias $1" >> /home/jaypaulb/.aliases_custom
+    reload-aliases
+}
+
+# reload-aliases: Reload the aliases in the current shell.
+# Example: reload-aliases
+alias reload-aliases='source /home/jaypaulb/Documents/github/aliases/aliases; source /home/jaypaulb/.aliases_custom'
+
+# aliases: List all defined aliases.
+# Example: aliases
+alias aliases='alias'
+
+
+#==============================================================================
+# Filesystem Navigation
+#==============================================================================
+
+# .: Go up one directory.
+# Example: .
+alias .='cd ..'
+
+# .2: Go up two directories.
+# Example: .2
+alias .2='cd ../..'
+
+# .3: Go up three directories.
+# Example: .3
+alias .3='cd ../../..'
+
+# .4: Go up four directories.
+# Example: .4
+alias .4='cd ../../../..'
+
+# .5: Go up five directories.
+# Example: .5
+alias .5='cd ../../../../..'
+
+# mkcd: Create a directory and immediately change into it.
+# Example: mkcd new_project
+mkcd() {
+    mkdir -p "$1" && cd "$1";
+}
+
+
+#==============================================================================
+# Deletion & Cleanup
+#==============================================================================
+
+# rmempty: Recursively delete all empty directories from the current location.
+# Example: rmempty
+alias rmempty='find . -type d -empty -delete'
+
+# rmemptyfiles: Recursively delete all empty files (0 bytes) from the current location.
+# Example: rmemptyfiles
+alias rmemptyfiles='find . -type f -empty -delete'
+
+# rmi: Interactive 'rm'. Prompts for confirmation before deleting.
+# Example: rmi somefile.txt
+alias rmi='rm -i'
+
+# trash: Move specified files to a ~/.trash directory instead of deleting.
+# Example: trash old_document.txt
+trash() {
+    mkdir -p ~/.trash && mv "$@" ~/.trash;
+}
+
+
+#==============================================================================
+# Searching
+#==============================================================================
+
+# findf: Find a file by name in the current directory.
+# Example: findf "config.yml"
+findf() {
+    find . -name "$1" ;
+}
+
+# grepi: Recursively and case-insensitively search for a pattern in files.
+# Example: grepi "database_url"
+grepi() {
+    grep -ri "$1" . ;
+}
+
+
+#==============================================================================
+# Disk Usage
+#==============================================================================
+
+# dus: Show a human-readable summary of the current directory's total size.
+# Example: dus
+alias dus='du -sh .'
+
+# dush: Show a human-readable size for each file/directory in the current path.
+# Example: dush
+alias dush='du -sh *'
+
+# dfh: Show free disk space on all mounted filesystems in a human-readable format.
+# Example: dfh
+alias dfh='df -h'
+
+
+#==============================================================================
+# Applications & Tools
+#==============================================================================
+
+#------------------------------------------------------------------------------
+# Gemini Shortcuts
+#------------------------------------------------------------------------------
+
+# gmf: Launch Gemini with the 1.5 Flash model.
+# Example: gmf
+alias gmf='gemini -m gemini-2.5-flash'
+
+# gmfy: Launch Gemini with the 1.5 Flash model in YOLO mode.
+# Example: gmfy
+alias gmfy='gemini -m gemini-2.5-flash -y'
+
+# gmp: Launch Gemini with the 1.5 Pro model.
+# Example: gmp
+alias gmp='gemini -m gemini-2.5-pro'
+
+# gmpy: Launch Gemini with the 1.5 Pro model in YOLO mode.
+# Example: gmpy
+alias gmpy='gemini -m gemini-2.5-pro -y'
+
+
+# gm: Interactively select a Gemini model to launch.
+# Pass '-y' or 'y' as an argument to enable YOLO mode.
+# Example: gm
+# Example: gm -y
+gm() {
+    local models=(
+        "gemini-2.5-pro"
+        "gemini-2.5-flash"
+        "gemini-2.5-flash-lite"
+    )
+    local yolo_flag=""
+
+    # Check if the first argument is '-y' or 'y'
+    if [[ "$1" == "-y" || "$1" == "y" ]]; then
+        yolo_flag="-y"
+    fi
+
+    echo "Select a Gemini model to use:"
+    select model in "${models[@]}"; do
+        if [[ -n "$model" ]]; then
+            echo "Launching: gemini -m $model $yolo_flag"
+            gemini -m "$model" $yolo_flag
+            break
+        else
+            echo "Invalid selection. Please try again."
+        fi
+    done
+}
+
+# gmy: Interactively select a Gemini model to launch in YOLO mode.
+# Example: gmy
+alias gmy='gm -y'
+
+# Source custom aliases
+if [ -f ~/.aliases_custom ]; then
+    . ~/.aliases_custom
+fi
