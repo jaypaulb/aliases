@@ -8,23 +8,23 @@
 
 # ll: List all files in long format, human-readable, including hidden files.
 # Example: ll
-alias ll='ls -alFh --color=auto'
+alias ll='eza -alFh --color=auto'
 
 # la: List all files, including hidden files, with human-readable sizes.
 # Example: la
-alias la='ls -Ah --color=auto'
+alias la='eza -Ah --color=auto'
 
 # l: List files in a column format, colorized.
 # Example: l
-alias l='ls -CF --color=auto'
+alias l='eza -G'
 
 # lss: List files sorted by size (largest first), with human-readable sizes.
 # Example: lss
-alias lss='ls -lSrh --color=auto'
+alias lss='eza -lhr --sort size'
 
 # lst: List files sorted by modification time (newest first), with human-readable sizes.
 # Example: lst
-alias lst='ls -ltrh --color=auto'
+alias lst='eza -lhr --sort modified'
 
 
 #==============================================================================
@@ -180,8 +180,8 @@ gm() {
     echo "Select a Gemini model to use:"
     select model in "${models[@]}"; do
         if [[ -n "$model" ]]; then
-            echo "Launching: gemini -m $model $yolo_flag"
-            gemini -m "$model" $yolo_flag
+            echo "Launching: gemini -m $model $yolo_flag --load-memory-from-include-directories --include-directories ~/gemini_config/"
+            gemini -m "$model" $yolo_flag --load-memory-from-include-directories --include-directories ~/gemini_config/
             break
         else
             echo "Invalid selection. Please try again."
