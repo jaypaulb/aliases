@@ -7,7 +7,7 @@ This repository contains a collection of custom bash aliases.
 To use these aliases, run the following command in your terminal:
 
 ```bash
-echo 'source /home/jaypaulb/Documents/github/aliases/aliases' >> ~/.bashrc
+echo 'source $(pwd)/aliases' >> ~/.bashrc
 ```
 
 Then, reload your .bashrc file:
