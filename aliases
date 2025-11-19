@@ -51,9 +51,7 @@ alias aliases='alias'
 # Filesystem Navigation
 #==============================================================================
 
-# .: Go up one directory.
-# Example: .
-alias .='cd ..'
+
 
 # .2: Go up two directories.
 # Example: .2
@@ -145,19 +143,19 @@ alias dfh='df -h'
 
 # gmf: Launch Gemini with the 1.5 Flash model.
 # Example: gmf
-alias gmf='gemini -m gemini-2.5-flash'
+alias gmf='gemini -m gemini-2.5-flash --include-directories ~/gemini_config/'
 
 # gmfy: Launch Gemini with the 1.5 Flash model in YOLO mode.
 # Example: gmfy
-alias gmfy='gemini -m gemini-2.5-flash -y'
+alias gmfy='gemini -m gemini-2.5-flash -y --include-directories ~/gemini_config/'
 
 # gmp: Launch Gemini with the 1.5 Pro model.
 # Example: gmp
-alias gmp='gemini -m gemini-2.5-pro'
+alias gmp='gemini -m gemini-2.5-pro --include-directories ~/gemini_config/'
 
 # gmpy: Launch Gemini with the 1.5 Pro model in YOLO mode.
 # Example: gmpy
-alias gmpy='gemini -m gemini-2.5-pro -y'
+alias gmpy='gemini -m gemini-2.5-pro -y --include-directories ~/gemini_config/'
 
 
 # gm: Interactively select a Gemini model to launch.
@@ -180,8 +178,8 @@ gm() {
     echo "Select a Gemini model to use:"
     select model in "${models[@]}"; do
         if [[ -n "$model" ]]; then
-            echo "Launching: gemini -m $model $yolo_flag --load-memory-from-include-directories --include-directories ~/gemini_config/"
-            gemini -m "$model" $yolo_flag --load-memory-from-include-directories --include-directories ~/gemini_config/
+            echo "Launching: gemini -m $model $yolo_flag --include-directories ~/gemini_config/"
+            gemini -m "$model" $yolo_flag --include-directories ~/gemini_config/
             break
         else
             echo "Invalid selection. Please try again."
@@ -193,7 +191,16 @@ gm() {
 # Example: gmy
 alias gmy='gm -y'
 
+#------------------------------------------------------------------------------
+# Agent OS
+#------------------------------------------------------------------------------
+
+# GOagOS: Install agent-os project dependencies and set up the environment.
+# Example: GOagOS
+alias GOagOS='~/agent-os/scripts/project-install.sh'
+
 # Source custom aliases
 if [ -f ~/.aliases_custom ]; then
     . ~/.aliases_custom
 fi
+alias wol='wakeonlan'
