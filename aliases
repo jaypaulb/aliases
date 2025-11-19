@@ -40,7 +40,7 @@ addalias() {
 
 # reload-aliases: Reload the aliases in the current shell.
 # Example: reload-aliases
-alias reload-aliases='source /home/jaypaulb/Documents/github/aliases/aliases; source /home/jaypaulb/.aliases_custom'
+alias reload-aliases='source /home/jaypaulb/Documents/gh/aliases/aliases; source /home/jaypaulb/.aliases_custom'
 
 # aliases: List all defined aliases.
 # Example: aliases
