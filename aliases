@@ -195,9 +195,9 @@ alias gmy='gm -y'
 # Agent OS
 #------------------------------------------------------------------------------
 
-# GOagOS: Install agent-os project dependencies and set up the environment.
-# Example: GOagOS
-alias GOagOS='~/agent-os/scripts/project-install.sh'
+# goagos: Install agent-os project dependencies and set up the environment.
+# Example: goagos
+alias goagos='~/agent-os/scripts/project-install.sh'
 
 # Source custom aliases
 if [ -f ~/.aliases_custom ]; then
