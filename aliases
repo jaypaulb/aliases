@@ -40,7 +40,7 @@ addalias() {
 
 # reload-aliases: Reload the aliases in the current shell.
 # Example: reload-aliases
-alias reload-aliases='source /home/jaypaulb/Documents/gh/aliases/aliases; source /home/jaypaulb/.aliases_custom'
+alias reload-aliases='source /home/jaypaulb/aliases/aliases; [ -f /home/jaypaulb/.aliases_custom ] && source /home/jaypaulb/.aliases_custom'
 
 # aliases: List all defined aliases.
 # Example: aliases
@@ -198,6 +198,75 @@ alias gmy='gm -y'
 # goagos: Install agent-os project dependencies and set up the environment.
 # Example: goagos
 alias goagos='~/agent-os/scripts/project-install.sh'
+
+#------------------------------------------------------------------------------
+# Claude Shortcuts
+#------------------------------------------------------------------------------
+
+# cls: Launch Claude with Sonnet model.
+# Example: cls
+alias cls='claude -m sonnet'
+
+# clo: Launch Claude with Opus model.
+# Example: clo
+alias clo='claude -m opus'
+
+# clh: Launch Claude with Haiku model.
+# Example: clh
+alias clh='claude -m haiku'
+
+# clsy: Launch Claude with Sonnet model in YOLO mode.
+# Example: clsy
+alias clsy='claude -m sonnet --allow-dangerously-skip-permissions'
+
+# cloy: Launch Claude with Opus model in YOLO mode.
+# Example: cloy
+alias cloy='claude -m opus --allow-dangerously-skip-permissions'
+
+# clhy: Launch Claude with Haiku model in YOLO mode.
+# Example: clhy
+alias clhy='claude -m haiku --allow-dangerously-skip-permissions'
+
+# cly: Launch Claude with permissions automatically skipped (YOLO mode).
+# Example: cly
+alias cly='claude --allow-dangerously-skip-permissions'
+
+# cln: Launch Claude normally.
+# Example: cln
+alias cln='claude'
+
+# cl: Interactively select a Claude model to launch.
+# Pass '-y' or 'y' as an argument to enable YOLO mode.
+# Example: cl
+# Example: cl -y
+cl() {
+    local models=(
+        "sonnet"
+        "opus"
+        "haiku"
+    )
+    local yolo_flag=""
+
+    # Check if the first argument is '-y' or 'y'
+    if [[ "$1" == "-y" || "$1" == "y" ]]; then
+        yolo_flag="--allow-dangerously-skip-permissions"
+    fi
+
+    echo "Select a Claude model to use:"
+    select model in "${models[@]}"; do
+        if [[ -n "$model" ]]; then
+            echo "Launching: claude -m $model $yolo_flag"
+            claude -m "$model" $yolo_flag
+            break
+        else
+            echo "Invalid selection. Please try again."
+        fi
+    done
+}
+
+# cly_interactive: Interactively select a Claude model to launch in YOLO mode.
+# Example: cly_interactive
+alias cly_interactive='cl -y'
 
 # Source custom aliases
 if [ -f ~/.aliases_custom ]; then
