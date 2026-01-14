@@ -34,13 +34,14 @@ alias lst='eza -lhr --sort modified'
 # addalias: Add a new alias to the custom aliases file and reload.
 # Example: addalias myalias='my command'
 addalias() {
-    echo "alias $1" >> /home/jaypaulb/.aliases_custom
+    echo "alias $1" >> "$HOME/.aliases_custom"
     reload-aliases
 }
 
 # reload-aliases: Reload the aliases in the current shell.
 # Example: reload-aliases
-alias reload-aliases='source /home/jaypaulb/aliases/aliases; [ -f /home/jaypaulb/.aliases_custom ] && source /home/jaypaulb/.aliases_custom'
+# Note: ALIASES_REPO_DIR is set by apply-aliases.sh in your shell config
+alias reload-aliases='source "$ALIASES_REPO_DIR/aliases"; [ -f "$HOME/.aliases_custom" ] && source "$HOME/.aliases_custom"'
 
 # aliases: List all defined aliases.
 # Example: aliases
