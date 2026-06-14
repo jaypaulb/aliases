@@ -177,21 +177,21 @@ ag() {
 # Gemini Shortcuts (restored 2026-06-14 — kept alongside Antigravity)
 #------------------------------------------------------------------------------
 
-# gmf: Launch Gemini with the 2.5 Flash model.
+# gmf: Launch Gemini with the 3 Flash (preview) model.
 # Example: gmf
-alias gmf='gemini -m gemini-2.5-flash --include-directories ~/gemini_config/'
+alias gmf='gemini -m gemini-3-flash-preview --include-directories ~/gemini_config/'
 
-# gmfy: Launch Gemini with the 2.5 Flash model in YOLO mode.
+# gmfy: Launch Gemini with the 3 Flash (preview) model in YOLO mode.
 # Example: gmfy
-alias gmfy='gemini -m gemini-2.5-flash -y --include-directories ~/gemini_config/'
+alias gmfy='gemini -m gemini-3-flash-preview -y --include-directories ~/gemini_config/'
 
-# gmp: Launch Gemini with the 2.5 Pro model.
+# gmp: Launch Gemini with the 3 Pro (preview) model.
 # Example: gmp
-alias gmp='gemini -m gemini-2.5-pro --include-directories ~/gemini_config/'
+alias gmp='gemini -m gemini-3-pro-preview --include-directories ~/gemini_config/'
 
-# gmpy: Launch Gemini with the 2.5 Pro model in YOLO mode.
+# gmpy: Launch Gemini with the 3 Pro (preview) model in YOLO mode.
 # Example: gmpy
-alias gmpy='gemini -m gemini-2.5-pro -y --include-directories ~/gemini_config/'
+alias gmpy='gemini -m gemini-3-pro-preview -y --include-directories ~/gemini_config/'
 
 
 # gm: Interactively select a Gemini model to launch.
@@ -200,8 +200,8 @@ alias gmpy='gemini -m gemini-2.5-pro -y --include-directories ~/gemini_config/'
 # Example: gm -y
 gm() {
     local models=(
-        "gemini-2.5-pro"
-        "gemini-2.5-flash"
+        "gemini-3-pro-preview"
+        "gemini-3-flash-preview"
         "gemini-2.5-flash-lite"
     )
     local yolo_flag=""
