@@ -138,22 +138,58 @@ alias dfh='df -h'
 #==============================================================================
 
 #------------------------------------------------------------------------------
-# Gemini Shortcuts
+# Antigravity Shortcuts
 #------------------------------------------------------------------------------
 
-# gmf: Launch Gemini with the 1.5 Flash model.
+# agy: Launch Antigravity.
+# Note: The 'agy' command does not support model selection via command line.
+# These aliases have been simplified to use the correct flags.
+alias agy='agy'
+
+# agpy: Launch Antigravity with permissions automatically skipped (YOLO mode)
+# and include the gemini_config directory.
+# Example: agpy
+alias agpy='agy --dangerously-skip-permissions --add-dir ~/gemini_config/'
+
+# ag: Interactive launcher for Antigravity.
+# Note: This function is preserved for consistency, but 'agy' does not support
+# model selection. It will launch 'agy' with or without YOLO mode.
+# Example: ag
+# Example: ag -y
+ag() {
+    echo "Note: The 'agy' command does not support model selection from the command line."
+    
+    local yolo_flag=""
+    local yolo_msg=""
+
+    # Check if the first argument is '-y' or 'y'
+    if [[ "$1" == "-y" || "$1" == "y" ]]; then
+        yolo_flag="--dangerously-skip-permissions"
+        yolo_msg=" in YOLO mode"
+    fi
+
+    echo "Launching Antigravity${yolo_msg}..."
+    echo "Command: agy ${yolo_flag} --add-dir ~/gemini_config/"
+    agy ${yolo_flag} --add-dir ~/gemini_config/
+}
+
+#------------------------------------------------------------------------------
+# Gemini Shortcuts (restored 2026-06-14 — kept alongside Antigravity)
+#------------------------------------------------------------------------------
+
+# gmf: Launch Gemini with the 2.5 Flash model.
 # Example: gmf
 alias gmf='gemini -m gemini-2.5-flash --include-directories ~/gemini_config/'
 
-# gmfy: Launch Gemini with the 1.5 Flash model in YOLO mode.
+# gmfy: Launch Gemini with the 2.5 Flash model in YOLO mode.
 # Example: gmfy
 alias gmfy='gemini -m gemini-2.5-flash -y --include-directories ~/gemini_config/'
 
-# gmp: Launch Gemini with the 1.5 Pro model.
+# gmp: Launch Gemini with the 2.5 Pro model.
 # Example: gmp
 alias gmp='gemini -m gemini-2.5-pro --include-directories ~/gemini_config/'
 
-# gmpy: Launch Gemini with the 1.5 Pro model in YOLO mode.
+# gmpy: Launch Gemini with the 2.5 Pro model in YOLO mode.
 # Example: gmpy
 alias gmpy='gemini -m gemini-2.5-pro -y --include-directories ~/gemini_config/'
 
@@ -235,6 +271,34 @@ alias cly='claude --allow-dangerously-skip-permissions'
 # Example: cln
 alias cln='claude'
 
+#------------------------------------------------------------------------------
+# Codex Shortcuts (added 2026-06-14)
+#------------------------------------------------------------------------------
+# Codex has no friendly model nicknames; default model is set in
+# ~/.codex/config.toml (currently gpt-5.5). Its real "power tier" dial is
+# model_reasoning_effort (low/medium/high) — the analog to Claude's
+# haiku/opus/sonnet tiers. YOLO == --dangerously-bypass-approvals-and-sandbox.
+
+# cx: Launch Codex normally (config default model + reasoning effort).
+# Example: cx
+alias cx='codex'
+
+# cxy: Launch Codex in YOLO mode (skip all approvals + sandbox).
+# Example: cxy
+alias cxy='codex --dangerously-bypass-approvals-and-sandbox'
+
+# cxl / cxm / cxh: Launch Codex at low / medium / high reasoning effort.
+# Example: cxh
+alias cxl='codex -c model_reasoning_effort="low"'
+alias cxm='codex -c model_reasoning_effort="medium"'
+alias cxh='codex -c model_reasoning_effort="high"'
+
+# cxly / cxmy / cxhy: Same reasoning tiers in YOLO mode.
+# Example: cxhy
+alias cxly='codex -c model_reasoning_effort="low"    --dangerously-bypass-approvals-and-sandbox'
+alias cxmy='codex -c model_reasoning_effort="medium" --dangerously-bypass-approvals-and-sandbox'
+alias cxhy='codex -c model_reasoning_effort="high"   --dangerously-bypass-approvals-and-sandbox'
+
 # cl: Interactively select a Claude model to launch.
 # Pass '-y' or 'y' as an argument to enable YOLO mode.
 # Example: cl
@@ -273,3 +337,32 @@ if [ -f ~/.aliases_custom ]; then
     . ~/.aliases_custom
 fi
 alias wol='wakeonlan'
+
+#------------------------------------------------------------------------------
+# Teleport Shortcuts
+#------------------------------------------------------------------------------
+
+# tshl: Login to Teleport with a 30-day session TTL.
+# Example: tshl
+alias tshl='tsh login --proxy=teleport.multitaction.com:443 --ttl=43200'
+
+# fakecam: Start Linux Fake Background Webcam with blur effect
+alias fakecam='/home/jaypaulb/Linux-Fake-Background-Webcam/start.sh'
+
+#------------------------------------------------------------------------------
+# Claude Code Token Dashboard (https://github.com/nateherkai/token-dashboard)
+#------------------------------------------------------------------------------
+
+# tokens: Launch the local Claude Code token-usage dashboard at http://127.0.0.1:8080
+# Scans ~/.claude/projects/ (all CC projects), opens browser, Ctrl+C to stop.
+# Example: tokens
+alias tokens='(cd ~/Projects/token-dashboard && python3 cli.py dashboard)'
+
+# tokens-today: Print today's token totals to terminal.
+alias tokens-today='(cd ~/Projects/token-dashboard && python3 cli.py today)'
+
+# tokens-stats: Print all-time token totals to terminal.
+alias tokens-stats='(cd ~/Projects/token-dashboard && python3 cli.py stats)'
+
+# tokens-tips: Print active suggestions for reducing token usage.
+alias tokens-tips='(cd ~/Projects/token-dashboard && python3 cli.py tips)'
